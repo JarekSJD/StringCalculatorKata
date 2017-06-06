@@ -4,18 +4,20 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 public class StringCalculator {
 
-	private static final String DESC_OF_DELIMETER = "//";
+	private static final String DESC_OF_DELIMIETER = "//";
 	private static final String COMMA = ",";
 	private static final String DEFAULT_DELIMIETER = ",|\n";
 	private static final int ZERO = 0;
 
 	private static List<String> numberList;
+	
 	private StringCalculator() {
 	}
 
@@ -29,6 +31,27 @@ public class StringCalculator {
 		return resultAfterParse();
 	}
 
+	private static String numbersToSplit(String numbers) {
+		if (numbers.startsWith(DESC_OF_DELIMIETER)) {
+			return numbers.split("\n", 2)[1];
+		}
+		return numbers;
+	}
+
+	private static String delimeter(String numbers) {
+		if (numbers.startsWith(DESC_OF_DELIMIETER)) {
+			String[] numbersParts = numbers.split("\n", 2);
+			String headerDelimieter = numbersParts[0].substring(2);
+
+			if (headerDelimieter.startsWith("[")) {
+				headerDelimieter = headerDelimieter.substring(1, headerDelimieter.length() - 1);
+			}
+
+			return Stream.of(headerDelimieter.split("]\\[")).map(Pattern::quote).collect(Collectors.joining("|"));
+		}
+		return DEFAULT_DELIMIETER;
+	}
+	
 	private static void areNegativeNumbers() {
 		 String negativeMessage = getNumberList()
 			.filter(x-> x < 0)
@@ -40,27 +63,6 @@ public class StringCalculator {
 		
 	}
 
-	private static String numbersToSplit(String numbers) {
-		if (numbers.startsWith(DESC_OF_DELIMETER)) {
-			return numbers.split("\n", 2)[1];
-		}
-		return numbers;
-	}
-
-	private static String delimeter(String numbers) {
-		if (numbers.startsWith(DESC_OF_DELIMETER)) {
-			String[] numbersParts = numbers.split("\n", 2);
-			String headerDelimieter = numbersParts[0].substring(2);
-
-			if (headerDelimieter.startsWith("[")) {
-				headerDelimieter = headerDelimieter.substring(1, headerDelimieter.length() - 1);
-			}
-
-			return Pattern.quote(headerDelimieter);
-		}
-		return DEFAULT_DELIMIETER;
-	}
-	
 	private static Integer resultAfterParse() {
 		return getNumberList().sum();
 	}
@@ -70,7 +72,6 @@ public class StringCalculator {
 				.mapToInt(x -> parseInt(x))
 				.filter(x -> x <= 1000);
 	}
-	
 
 	private static Integer parseInt(String s) {
 		try {

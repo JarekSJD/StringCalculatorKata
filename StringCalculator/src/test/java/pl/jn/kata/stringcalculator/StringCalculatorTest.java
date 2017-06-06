@@ -9,6 +9,10 @@ import org.junit.Test;
 
 public class StringCalculatorTest {
 
+	private static final String DIFFERENT_MULTI_DELIMITERS = "//[--][**]\n1--2**3";
+	private static final String THREE_DIFFERENT_DELIMITERS = "//[-][*][#]\n1-2*3#4";
+	private static final String DIFFERENT_DELIMITERS = "//[-][*]\n1-2*3";
+	private static final String MULTI_DELIMIERS = "//[---]\n1---2---3";
 	private static final String DIGIT_ABOVE_1000 = "1,1002";
 	private static final String NEGATIVE_DIGIT = "-1";
 	private static final String NEGATIVE_DIGITS = "-1,2,-2";
@@ -90,13 +94,26 @@ public class StringCalculatorTest {
 	@Test
 	public void returnResultWithDigitsAbove1000() {
 		int result = StringCalculator.add(DIGIT_ABOVE_1000);
-		System.out.println("returnResultWithDigitsAbove1000: "+result);
 		assertEquals(1, result);
+	}
+
+	@Test
+	public void returnResultWithMultiDelimeters() {
+		assertThat(StringCalculator.add(MULTI_DELIMIERS), is(6));
+	}
+
+	@Test
+	public void returnResultWithDifferentsDelimeters() {
+		assertThat(StringCalculator.add(DIFFERENT_DELIMITERS), is(6));
+	}
+
+	@Test
+	public void returnResultWith3DifferentsDelimeters() {
+		assertThat(StringCalculator.add(THREE_DIFFERENT_DELIMITERS), is(10));
 	}
 	
 	@Test
-	public void returnResultWithMUltiDelimeters(){
-		assertThat(StringCalculator.add("//[---]\n1---2---3"), is(6));
+	public void returnResultWithDifferentsMultiDelimeters() {
+		assertThat(StringCalculator.add(DIFFERENT_MULTI_DELIMITERS), is(6));
 	}
-
 }
