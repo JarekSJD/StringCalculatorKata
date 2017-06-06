@@ -12,6 +12,8 @@ public class StringCalculatorTest {
 	private final static String UNKNOWN_DIGITS = "1,2,3,4,5,6";
 	private final static String DIGITS_WITH_NEXT_LINE_SEPARATOR = "1\n2,3";
 	private final static String DIGITS_WITH_NEXT_LINE_SEPARATOR_NOK = "1,\n2";
+	private final static String CUSTOM_DELIMETER = "//;1;2;3";
+	private final static String CUSTOM_DELIMETER_2 = "//;\n1;2;3";
 
 	@Test
 	public void returnZeroIfNull() {
@@ -36,22 +38,34 @@ public class StringCalculatorTest {
 		int result = StringCalculator.add(TWO_DIGITS);
 		assertEquals(3, result);
 	}
-	
+
 	@Test
 	public void returnResultWithUnknownDigitAsParam() {
 		int result = StringCalculator.add(UNKNOWN_DIGITS);
 		assertEquals(21, result);
 	}
-	
+
 	@Test
 	public void returnResultWithNextLineSeparatorDigitsParam() {
 		int result = StringCalculator.add(DIGITS_WITH_NEXT_LINE_SEPARATOR);
 		assertEquals(6, result);
 	}
-	
-	@Test(expected=NumberFormatException.class)
+
+	@Test(expected = NumberFormatException.class)
 	public void returnResultWithNextLineSeparatorDigitsNokParam() {
 		StringCalculator.add(DIGITS_WITH_NEXT_LINE_SEPARATOR_NOK);
+	}
+
+	@Test
+	public void returnResultWithCustomDelimeter() {
+		int result = StringCalculator.add(CUSTOM_DELIMETER);
+		assertEquals(6, result);
+	}
+
+	@Test
+	public void returnResultWithCustomDelimeter2() {
+		int result = StringCalculator.add(CUSTOM_DELIMETER_2);
+		assertEquals(6, result);
 	}
 
 }
