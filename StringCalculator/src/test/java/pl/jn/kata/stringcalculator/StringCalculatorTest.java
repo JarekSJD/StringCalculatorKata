@@ -1,19 +1,24 @@
 package pl.jn.kata.stringcalculator;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 public class StringCalculatorTest {
 
+	private static final String DIGIT_ABOVE_1000 = "1,1002";
+	private static final String NEGATIVE_DIGIT = "-1";
+	private static final String NEGATIVE_DIGITS = "-1,2,-2";
 	private final static String EMPTY = "";
 	private final static String ONE_DIGIT = "1";
 	private final static String TWO_DIGITS = "1,2";
-	private final static String UNKNOWN_DIGITS = "1,2,3,4,5,6";
+	private final static String MANY_DIGITS = "1,2,3,4,5,6";
 	private final static String DIGITS_WITH_NEXT_LINE_SEPARATOR = "1\n2,3";
 	private final static String DIGITS_WITH_NEXT_LINE_SEPARATOR_NOK = "1,\n2";
-	private final static String CUSTOM_DELIMETER = "//;1;2;3";
-	private final static String CUSTOM_DELIMETER_2 = "//;\n1;2;3";
+	private final static String CUSTOM_DELIMETER = "//;\n1;2;3";
 
 	@Test
 	public void returnZeroIfNull() {
@@ -41,7 +46,7 @@ public class StringCalculatorTest {
 
 	@Test
 	public void returnResultWithUnknownDigitAsParam() {
-		int result = StringCalculator.add(UNKNOWN_DIGITS);
+		int result = StringCalculator.add(MANY_DIGITS);
 		assertEquals(21, result);
 	}
 
@@ -63,9 +68,35 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void returnResultWithCustomDelimeter2() {
-		int result = StringCalculator.add(CUSTOM_DELIMETER_2);
-		assertEquals(6, result);
+	public void checkNegativeNumber() {
+		try {
+			StringCalculator.add(NEGATIVE_DIGIT);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("-1"));
+		}
+	}
+
+	@Test
+	public void checkNegativeNumbers() {
+		try {
+			StringCalculator.add(NEGATIVE_DIGITS);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("-1,-2"));
+		}
+	}
+
+	@Test
+	public void returnResultWithDigitsAbove1000() {
+		int result = StringCalculator.add(DIGIT_ABOVE_1000);
+		System.out.println("returnResultWithDigitsAbove1000: "+result);
+		assertEquals(1, result);
+	}
+	
+	@Test
+	public void returnResultWithMUltiDelimeters(){
+		assertThat(StringCalculator.add("//[---]\n1---2---3"), is(6));
 	}
 
 }
