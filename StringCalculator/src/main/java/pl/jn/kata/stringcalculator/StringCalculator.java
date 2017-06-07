@@ -62,11 +62,7 @@ public class StringCalculator {
 		}
 		
 	}
-
-	private static Integer resultAfterParse() {
-		return getNumberList().sum();
-	}
-
+	
 	private static IntStream getNumberList() {
 		return numberList.stream()
 				.mapToInt(x -> parseInt(x))
@@ -79,6 +75,10 @@ public class StringCalculator {
 		} catch (NumberFormatException nfe) {
 			throw new NumberFormatException("This value is not supported: " + s);
 		}
+	}
+	
+	private static Integer resultAfterParse() {
+		return getNumberList().sum();
 	}
 
 }

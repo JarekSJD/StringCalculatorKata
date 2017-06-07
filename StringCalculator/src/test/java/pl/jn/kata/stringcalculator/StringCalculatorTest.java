@@ -1,7 +1,6 @@
 package pl.jn.kata.stringcalculator;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -26,38 +25,32 @@ public class StringCalculatorTest {
 
 	@Test
 	public void returnZeroIfNull() {
-		int result = StringCalculator.add(null);
-		assertEquals(0, result);
+		assertThat(StringCalculator.add(null), is(0));
 	}
 
 	@Test
 	public void returnZeroIfEmpty() {
-		int result = StringCalculator.add(EMPTY);
-		assertEquals(0, result);
+		assertThat(StringCalculator.add(EMPTY), is(0));
 	}
 
 	@Test
 	public void returnResultWithOneDigitAsParam() {
-		int result = StringCalculator.add(ONE_DIGIT);
-		assertEquals(1, result);
+		assertThat(StringCalculator.add(ONE_DIGIT), is(1));
 	}
 
 	@Test
 	public void returnResultWithTwoDigitAsParam() {
-		int result = StringCalculator.add(TWO_DIGITS);
-		assertEquals(3, result);
+		assertThat(StringCalculator.add(TWO_DIGITS), is(3));
 	}
 
 	@Test
 	public void returnResultWithUnknownDigitAsParam() {
-		int result = StringCalculator.add(MANY_DIGITS);
-		assertEquals(21, result);
+		assertThat(StringCalculator.add(MANY_DIGITS), is(21));
 	}
 
 	@Test
 	public void returnResultWithNextLineSeparatorDigitsParam() {
-		int result = StringCalculator.add(DIGITS_WITH_NEXT_LINE_SEPARATOR);
-		assertEquals(6, result);
+		assertThat(StringCalculator.add(DIGITS_WITH_NEXT_LINE_SEPARATOR), is(6));
 	}
 
 	@Test(expected = NumberFormatException.class)
@@ -67,8 +60,7 @@ public class StringCalculatorTest {
 
 	@Test
 	public void returnResultWithCustomDelimeter() {
-		int result = StringCalculator.add(CUSTOM_DELIMETER);
-		assertEquals(6, result);
+		assertThat(StringCalculator.add(CUSTOM_DELIMETER), is(6));
 	}
 
 	@Test
@@ -93,8 +85,7 @@ public class StringCalculatorTest {
 
 	@Test
 	public void returnResultWithDigitsAbove1000() {
-		int result = StringCalculator.add(DIGIT_ABOVE_1000);
-		assertEquals(1, result);
+		assertThat(StringCalculator.add(DIGIT_ABOVE_1000), is(1));
 	}
 
 	@Test
@@ -111,7 +102,7 @@ public class StringCalculatorTest {
 	public void returnResultWith3DifferentsDelimeters() {
 		assertThat(StringCalculator.add(THREE_DIFFERENT_DELIMITERS), is(10));
 	}
-	
+
 	@Test
 	public void returnResultWithDifferentsMultiDelimeters() {
 		assertThat(StringCalculator.add(DIFFERENT_MULTI_DELIMITERS), is(6));
